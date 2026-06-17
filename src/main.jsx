@@ -281,8 +281,8 @@ function Hero() {
         <h1>{artist.name}</h1>
         <p className="tagline">{artist.tagline}</p>
         <p className="hero-copy">
-          Cinematic production, soulful vocals, and creator-ready music shaped for releases, reels, videos,
-          and emotional brand moments.
+          We craft professional vocals, modern production, and genre-blending music for hip-hop, pop, R&B,
+          reels, videos, releases, and standout creator moments.
         </p>
         <div className="hero-actions">
           <a className="button primary" href={links.spotify} target="_blank" rel="noreferrer">
@@ -295,7 +295,7 @@ function Hero() {
           </a>
           <a className="button ghost" href="#contact">
             <Mail size={20} />
-            Contact Me
+            Contact Us
           </a>
         </div>
         <Visualizer />
@@ -316,9 +316,9 @@ function About() {
   return (
     <section className="section about" id="about">
       <SectionIntro
-        eyebrow="About Me"
-        title="A cinematic sound with a human center."
-        copy="Chetan Khajuria creates music that blends modern production, expressive vocals, and content-first instinct."
+        eyebrow="About Us"
+        title="Versatile sound for modern independent music."
+        copy="We create across hip-hop, pop, R&B, cinematic, and genre-blending sounds with professional vocals, polished production, and a creator-first approach."
       />
       <div className="about-grid">
         <div className="about-panel glass-card">
@@ -331,14 +331,16 @@ function About() {
         </div>
         <div className="stats-grid">
           {[
-            ['3+', 'Creative lanes'],
-            ['100%', 'Artist-led taste'],
-            ['24/7', 'Collab inquiries'],
-            ['4K', 'Cinematic mindset']
+            ['50+', 'Original Projects'],
+            ['10+', 'Music Genres'],
+            ['24/7', 'Collab Inquiries'],
+            ['100K+', 'Social Media Views']
           ].map(([value, label]) => (
             <div className="stat glass-card" key={label}>
               <strong>{value}</strong>
-              <span>{label}</span>
+              <span className={['Music Genres', 'Social Media Views'].includes(label) ? 'stat-label-offset' : undefined}>
+                {label}
+              </span>
             </div>
           ))}
         </div>
@@ -528,19 +530,24 @@ function Contact() {
     name: '',
     email: '',
     phone: '',
+    role: '',
     subject: '',
     message: ''
   });
   const [status, setStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [isSending, setIsSending] = useState(false);
+  const [phonePopup, setPhonePopup] = useState(false);
 
   const validate = () => {
     const next = {};
+    const phoneDigits = values.phone.replace(/\D/g, '');
     if (values.name.trim().length < 2) next.name = 'Please enter your name.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = 'Please enter a valid email.';
-    if (values.phone && !/^[0-9+\-\s()]{7,18}$/.test(values.phone)) next.phone = 'Please enter a valid phone number.';
-    if (values.subject.trim().length < 3) next.subject = 'Please add a subject.';
+    if (phoneDigits.length < 10) next.phone = 'Phone number must be at least 10 digits.';
+    else if (!/^[0-9+\-\s()]{10,20}$/.test(values.phone)) next.phone = 'Please enter a valid phone number.';
+    if (!values.role) next.role = 'Please select what best describes you.';
+    if (!values.subject) next.subject = 'Please select a subject.';
     if (values.message.trim().length < 12) next.message = 'Please write a little more about the project.';
     return next;
   };
@@ -549,12 +556,16 @@ function Contact() {
     const { name, value } = event.target;
     setValues((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: '' }));
+    if (name === 'phone' && value.replace(/\D/g, '').length >= 10) {
+      setPhonePopup(false);
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
+    setPhonePopup(Boolean(nextErrors.phone));
 
     if (Object.keys(nextErrors).length) {
       setStatus({ type: 'error', text: 'Please fix the highlighted fields and send again.' });
@@ -584,6 +595,7 @@ function Contact() {
           user_email: values.email.trim(),
           reply_to: values.email.trim(),
           phone: values.phone.trim() || 'Not provided',
+          role: values.role,
           subject: values.subject.trim(),
           message: values.message.trim(),
           to_email: emailjsConfig.toEmail,
@@ -599,7 +611,7 @@ function Contact() {
       );
 
       setStatus({ type: 'success', text: 'Inquiry sent successfully. I will get back to you soon.' });
-      setValues({ name: '', email: '', phone: '', subject: '', message: '' });
+      setValues({ name: '', email: '', phone: '', role: '', subject: '', message: '' });
     } catch (error) {
       setStatus({
         type: 'error',
@@ -625,18 +637,13 @@ function Contact() {
             Share your goal, references, budget range, deadline, and release platform. The more context you include,
             the faster the creative direction can become clear.
           </p>
-          <a href={`mailto:${artist.email}`}>
-            <Mail size={18} />
-            {artist.email}
-          </a>
           <PlatformLinks compact />
         </div>
         <form className="contact-form glass-card" onSubmit={handleSubmit} noValidate>
           {[
             ['name', 'Name', 'text'],
             ['email', 'Email', 'email'],
-            ['phone', 'Phone', 'tel'],
-            ['subject', 'Subject', 'text']
+            ['phone', 'Phone', 'tel']
           ].map(([name, label, type]) => (
             <label key={name}>
               <span>{label}</span>
@@ -647,10 +654,43 @@ function Contact() {
                 onChange={handleChange}
                 aria-invalid={Boolean(errors[name])}
                 placeholder={label}
+                inputMode={name === 'phone' ? 'tel' : undefined}
               />
               {errors[name] && <small>{errors[name]}</small>}
             </label>
           ))}
+          <label>
+            <span>Subject</span>
+            <select name="subject" value={values.subject} onChange={handleChange} aria-invalid={Boolean(errors.subject)}>
+              <option value="">Select subject</option>
+              <option value="Song Production">Song Production</option>
+              <option value="Mixing and Mastering">Mixing and Mastering</option>
+              <option value="Custom Beat">Custom Beat</option>
+              <option value="Music Collaboration">Music Collaboration</option>
+              <option value="Others">Others</option>
+            </select>
+            {errors.subject && <small>{errors.subject}</small>}
+          </label>
+          <label className="full">
+            <span>I am a</span>
+            <select name="role" value={values.role} onChange={handleChange} aria-invalid={Boolean(errors.role)}>
+              <option value="">Select your role</option>
+              <option value="Singer / Vocalist">Singer / Vocalist</option>
+              <option value="Lyricist">Lyricist</option>
+              <option value="Music Producer">Music Producer</option>
+              <option value="Independent Artist">Independent Artist</option>
+              <option value="Rapper">Rapper</option>
+              <option value="Content Creator">Content Creator</option>
+              <option value="Brand / Business">Brand / Business</option>
+              <option value="Other">Other</option>
+            </select>
+            {errors.role && <small>{errors.role}</small>}
+          </label>
+          {phonePopup && (
+            <div className="phone-popup" role="alert">
+              Phone number must be at least 10 digits.
+            </div>
+          )}
           <label className="full">
             <span>Message</span>
             <textarea
@@ -702,8 +742,7 @@ function App() {
         <Contact />
       </main>
       <footer className="footer">
-        <strong>Chetan Khajuria</strong>
-        <span>Music Producer • Vocalist • Content Creator</span>
+        <span className="copyright">© 2026 Chetan Khajuria. All rights reserved.</span>
       </footer>
       <WhatsAppButton />
     </>
