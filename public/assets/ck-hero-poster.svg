@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Cinematic music studio artwork">
+  <defs>
+    <radialGradient id="goldGlow" cx="28%" cy="36%" r="55%">
+      <stop offset="0" stop-color="#f4c96b" stop-opacity=".55"/>
+      <stop offset=".38" stop-color="#b38332" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#05060a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tealGlow" cx="76%" cy="28%" r="58%">
+      <stop offset="0" stop-color="#40f4df" stop-opacity=".36"/>
+      <stop offset=".42" stop-color="#128477" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#05060a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stage" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#05060a"/>
+      <stop offset=".45" stop-color="#10131c"/>
+      <stop offset="1" stop-color="#06070b"/>
+    </linearGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#stage)"/>
+  <rect width="1600" height="1000" fill="url(#goldGlow)"/>
+  <rect width="1600" height="1000" fill="url(#tealGlow)"/>
+  <g opacity=".42" filter="url(#blur)">
+    <ellipse cx="1180" cy="775" rx="390" ry="105" fill="#1dd8ca"/>
+    <ellipse cx="520" cy="790" rx="500" ry="120" fill="#d8a248"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M52 512 C210 454 294 620 446 548 S708 420 852 512 S1104 651 1276 516 S1500 418 1574 486" stroke="#f4c96b" stroke-width="8" opacity=".64"/>
+    <path d="M40 562 C218 520 336 654 474 590 S702 450 890 556 S1138 656 1328 540 S1502 488 1588 530" stroke="#2ff3df" stroke-width="5" opacity=".44"/>
+    <path d="M40 466 C212 394 340 548 520 492 S810 348 962 464 S1180 610 1390 454 S1520 390 1588 428" stroke="#ce5cff" stroke-width="3" opacity=".30"/>
+  </g>
+  <g transform="translate(835 145)" opacity=".82">
+    <rect x="95" y="0" width="118" height="330" rx="59" fill="#0f121a" stroke="#f4c96b" stroke-opacity=".28" stroke-width="4"/>
+    <rect x="122" y="28" width="64" height="230" rx="32" fill="#171b25"/>
+    <g stroke="#f4c96b" stroke-opacity=".22" stroke-width="4">
+      <path d="M128 72h52M128 116h52M128 160h52M128 204h52"/>
+    </g>
+    <path d="M45 188c0 150 218 150 218 0" fill="none" stroke="#e8c06a" stroke-opacity=".45" stroke-width="11" stroke-linecap="round"/>
+    <path d="M154 341v142M86 483h136" stroke="#e8c06a" stroke-opacity=".35" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <g opacity=".18" stroke="#fff" stroke-width="1">
+    <path d="M0 820h1600M0 870h1600M0 920h1600"/>
+    <path d="M360 690 190 1000M1240 680l210 320M710 700 620 1000M980 700l75 300"/>
+  </g>
+  <g fill="#fff" opacity=".65">
+    <circle cx="153" cy="183" r="2"/><circle cx="270" cy="724" r="1.5"/><circle cx="420" cy="248" r="1.8"/>
+    <circle cx="612" cy="132" r="1.4"/><circle cx="721" cy="668" r="2.2"/><circle cx="1020" cy="186" r="1.7"/>
+    <circle cx="1196" cy="338" r="1.5"/><circle cx="1392" cy="238" r="2"/><circle cx="1480" cy="692" r="1.6"/>
+  </g>
+  <rect width="1600" height="1000" fill="#000" opacity=".16"/>
+</svg>
