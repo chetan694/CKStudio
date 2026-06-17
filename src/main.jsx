@@ -31,9 +31,9 @@ const artist = {
 
 const links = {
   spotify: 'spotify:artist:0oVVyCkQhJatFjxBMqD05A',
-  youtube: 'https://www.youtube.com/results?search_query=Chetan+Khajuria',
+  youtube: 'https://youtube.com/channel/UCOZqKI3mx2YBlE8iNdXtTTw?si=xbidDGBp37mdd4Wh',
   instagram: 'https://www.instagram.com/chetan_khajuria22/',
-  apple: 'https://music.apple.com/us/search?term=Chetan%20Khajuria'
+  apple: 'https://music.apple.com/in/artist/chetan-khajuria/1831988402'
 };
 
 const emailjsConfig = {
