@@ -70,17 +70,27 @@ const latestSongs = [
   }
 ];
 
-const videos = [
-  'Studio Session: Vocal Layers',
-  'Behind The Beat: Cinematic Drop',
-  'Live Acoustic Take'
-];
-
 const services = [
-  ['Music Production', 'Full song production, arrangement, beat-making, and cinematic sound design.'],
-  ['Mixing & Mastering', 'Balanced mixes, vocal polish, stereo depth, loudness, and final master preparation.'],
-  ['Creator Music', 'Custom intros, reels audio, YouTube music beds, brand-safe background tracks.'],
-  ['Mix Guidance', 'Detailed feedback, vocal polish direction, and release-ready refinement notes.']
+  [
+    'Music Production',
+    'Full song production, arrangement, beat-making, and cinematic sound design.',
+    '/assets/services/music-production.webp'
+  ],
+  [
+    'Mixing & Mastering',
+    'Balanced mixes, vocal polish, stereo depth, loudness, and final master preparation.',
+    '/assets/services/mixing-mastering.webp'
+  ],
+  [
+    'Creator Music',
+    'Custom intros, reels audio, YouTube music beds, brand-safe background tracks.',
+    '/assets/services/creator-music.webp'
+  ],
+  [
+    'Mix Guidance',
+    'Detailed feedback, vocal polish direction, and release-ready refinement notes.',
+    '/assets/services/mix-guidance.webp'
+  ]
 ];
 
 const courses = [
@@ -215,7 +225,7 @@ function Visualizer() {
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const nav = ['About', 'Songs', 'Videos', 'Services', 'Courses', 'Contact'];
+  const nav = ['About', 'Songs', 'Services', 'Courses', 'Contact'];
 
   return (
     <header className="site-header">
@@ -281,7 +291,7 @@ function Hero() {
         <h1>{artist.name}</h1>
         <p className="tagline">{artist.tagline}</p>
         <p className="hero-copy">
-          We craft professional vocals, modern production, and genre-blending music for hip-hop, pop, R&B,
+          I craft professional vocals, modern production, and genre-blending music for hip-hop, pop, R&B,
           reels, videos, releases, and standout creator moments.
         </p>
         <div className="hero-actions">
@@ -295,7 +305,7 @@ function Hero() {
           </a>
           <a className="button ghost" href="#contact">
             <Mail size={20} />
-            Contact Us
+            Contact Me
           </a>
         </div>
         <Visualizer />
@@ -316,9 +326,9 @@ function About() {
   return (
     <section className="section about" id="about">
       <SectionIntro
-        eyebrow="About Us"
+        eyebrow="About Me"
         title="Versatile sound for modern independent music."
-        copy="We create across hip-hop, pop, R&B, cinematic, and genre-blending sounds with professional vocals, polished production, and a creator-first approach."
+        copy="I create across hip-hop, pop, R&B, cinematic, and genre-blending sounds with professional vocals, polished production, and a creator-first approach."
       />
       <div className="about-grid">
         <div className="about-panel glass-card">
@@ -395,32 +405,6 @@ function LatestSongs() {
   );
 }
 
-function Videos() {
-  return (
-    <section className="section videos" id="videos">
-      <SectionIntro
-        eyebrow="Music Videos"
-        title="Visual stories, studio moments, and creator cuts."
-        copy="A cinematic video wall designed for official videos, live takes, behind-the-scenes edits, and YouTube releases."
-      />
-      <div className="video-grid">
-        {videos.map((video, index) => (
-          <a className="video-card" href={links.youtube} target="_blank" rel="noreferrer" key={video}>
-            <div className="video-frame">
-              <span className="play-orb">
-                <CirclePlay size={34} />
-              </span>
-              <span className="video-number">0{index + 1}</span>
-            </div>
-            <h3>{video}</h3>
-            <p>Watch on YouTube</p>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function Services() {
   return (
     <section className="section" id="services">
@@ -430,11 +414,16 @@ function Services() {
         copy="Flexible music services for original songs, collaborations, content packages, and polished demos."
       />
       <div className="card-grid four">
-        {services.map(([title, copy], index) => (
+        {services.map(([title, copy, image], index) => (
           <article className="service-card glass-card" key={title}>
-            <span className="service-index">{String(index + 1).padStart(2, '0')}</span>
-            <h3>{title}</h3>
-            <p>{copy}</p>
+            <div className="service-visual">
+              <img src={image} alt={`${title} studio setup`} loading="lazy" />
+              <span className="service-index">{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            <div className="service-content">
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -733,7 +722,6 @@ function App() {
         <Hero />
         <About />
         <LatestSongs />
-        <Videos />
         <Services />
         <Courses />
         <Testimonials />

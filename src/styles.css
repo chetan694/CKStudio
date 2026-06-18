@@ -647,8 +647,9 @@ h1 {
 }
 
 .service-card {
-  min-height: 250px;
-  padding: 24px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
   transition: transform 180ms ease, border-color 180ms ease;
 }
 
@@ -657,15 +658,61 @@ h1 {
   border-color: rgba(241, 200, 106, 0.38);
 }
 
+.service-visual {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #0b1012;
+}
+
+.service-visual::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(180deg, transparent 52%, rgba(5, 7, 10, 0.72));
+  pointer-events: none;
+}
+
+.service-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 420ms ease, filter 420ms ease;
+}
+
+.service-card:hover .service-visual img {
+  transform: scale(1.04);
+  filter: saturate(1.08);
+}
+
 .service-index {
-  display: inline-block;
-  margin-bottom: 42px;
-  color: var(--teal);
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  left: 14px;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: #071012;
+  background: rgba(116, 239, 218, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 6px;
   font-weight: 900;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.service-content {
+  padding: 22px 22px 24px;
 }
 
 .service-card h3 {
+  margin: 0 0 10px;
   font-size: 1.28rem;
+}
+
+.service-card p {
+  margin: 0;
 }
 
 .courses-grid {
