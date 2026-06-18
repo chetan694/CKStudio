@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import emailjs from '@emailjs/browser';
 import {
   ArrowUpRight,
@@ -135,6 +137,7 @@ function ParticlesCanvas() {
     let particles = [];
     let width = 0;
     let height = 0;
+    let isVisible = true;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const resize = () => {
@@ -173,6 +176,7 @@ function ParticlesCanvas() {
     };
 
     const draw = (time = 0) => {
+      frame = undefined;
       ctx.clearRect(0, 0, width, height);
       const gradient = ctx.createRadialGradient(width * 0.62, height * 0.36, 10, width * 0.62, height * 0.36, width * 0.62);
       gradient.addColorStop(0, 'rgba(52, 242, 219, .12)');
@@ -198,19 +202,60 @@ function ParticlesCanvas() {
       drawWave(time + 650, height * 0.55, 30, 176, 0.35, 2);
       drawWave(time + 1200, height * 0.39, 24, 304, 0.18, 1.4);
 
-      if (!reduced) frame = requestAnimationFrame(draw);
+      if (!reduced && isVisible) frame = requestAnimationFrame(draw);
     };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !reduced && !frame) frame = requestAnimationFrame(draw);
+    });
 
     resize();
     draw();
+    observer.observe(canvas);
     window.addEventListener('resize', resize);
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(frame);
     };
   }, []);
 
   return <canvas className="particles-canvas" ref={canvasRef} aria-hidden="true" />;
+}
+
+function SmoothScroll() {
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let lenis;
+
+    const updateScroll = () => {
+      lenis?.destroy();
+      lenis = undefined;
+
+      if (!motionPreference.matches) {
+        lenis = new Lenis({
+          autoRaf: true,
+          anchors: { offset: -100 },
+          duration: 0.72,
+          smoothWheel: true,
+          syncTouch: false,
+          wheelMultiplier: 1.15,
+          stopInertiaOnNavigate: true
+        });
+      }
+    };
+
+    updateScroll();
+    motionPreference.addEventListener('change', updateScroll);
+
+    return () => {
+      motionPreference.removeEventListener('change', updateScroll);
+      lenis?.destroy();
+    };
+  }, []);
+
+  return null;
 }
 
 function Visualizer() {
@@ -360,8 +405,6 @@ function About() {
 }
 
 function LatestSongs() {
-  const [active, setActive] = useState(0);
-
   return (
     <section className="section" id="songs">
       <SectionIntro
@@ -370,15 +413,14 @@ function LatestSongs() {
         copy="A focused showcase of release-ready moods, from cinematic pop to intimate vocal-driven ideas."
       />
       <div className="song-grid">
-        {latestSongs.map((song, index) => (
-          <article className={`song-card glass-card ${active === index ? 'is-active' : ''}`} key={song.title}>
+        {latestSongs.map((song) => (
+          <article className="song-card glass-card" key={song.title}>
             <a
               className="song-play"
               href={song.href}
               target="_blank"
               rel="noreferrer"
               aria-label={`Listen to ${song.title} on Spotify`}
-              onClick={() => setActive(index)}
             >
               <CirclePlay size={28} />
             </a>
@@ -717,6 +759,7 @@ function WhatsAppButton() {
 function App() {
   return (
     <>
+      <SmoothScroll />
       <Header />
       <main>
         <Hero />

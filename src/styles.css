@@ -476,8 +476,7 @@ h1 {
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.song-card:hover,
-.song-card.is-active {
+.song-card:hover {
   transform: translateY(-5px);
   border-color: rgba(241, 200, 106, 0.48);
   background: linear-gradient(145deg, rgba(241, 200, 106, 0.13), rgba(55, 234, 220, 0.06));
@@ -532,8 +531,7 @@ h1 {
   transition: transform 420ms ease, filter 420ms ease;
 }
 
-.song-card:hover .song-art img,
-.song-card.is-active .song-art img {
+.song-card:hover .song-art img {
   filter: saturate(1.08) contrast(1.04);
   transform: scale(1.04);
 }
